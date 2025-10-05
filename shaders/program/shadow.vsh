@@ -16,8 +16,12 @@ out vec2 uv;
 flat out uint material_mask;
 flat out vec3 tint;
 
+#ifdef WATER_CAUSTICS
 // World-space position at the surface (for normal reconstruction)
 out vec3 scene_pos;
+#else
+out vec3 scene_pos;
+#endif
 
 // Per-vertex skylight value (0..1) for RSM clustering
 flat out float sky_lightmap;
@@ -109,8 +113,12 @@ void main() {
 	pos = animate_vertex(pos, is_top_vertex, clamp01(rcp(240.0) * gl_MultiTexCoord1.y), material_mask);
 	pos = pos - cameraPosition;
 
-	// Save world/scene-space position before returning to shadow view space
-	scene_pos = pos;
+	#ifdef WATER_CAUSTICS
+		// Save world/scene-space position before returning to shadow view space
+		scene_pos = pos;
+	#else
+		scene_pos = pos;
+	#endif
 
 	pos = transform(shadowModelView, pos);;
 #endif
