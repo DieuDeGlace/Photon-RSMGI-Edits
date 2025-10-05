@@ -21,7 +21,13 @@ in vec2 uv;
 flat in uint material_mask;
 flat in vec3 tint;
 
+
+#ifdef WATER_CAUSTICS
 in vec3 scene_pos;
+#else
+in vec3 scene_pos;
+#endif
+
 flat in float sky_lightmap;
 
 // ------------
