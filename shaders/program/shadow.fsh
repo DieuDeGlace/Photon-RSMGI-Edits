@@ -133,6 +133,11 @@ void main() {
 		vec3 absorption_coeff = biome_water_coeff(biome_water_color);
 
 		shadowcolor0_out = clamp01(0.25 * exp(-absorption_coeff * distance_through_water) * get_water_caustics());
+		
+		// For water, store upward normal and a water mask in .w
+		vec3 world_n = vec3(0.0, 1.0, 0.0);
+		vec2 enc = encode_unit_vector(world_n);
+		shadowcolor1_out = vec4(enc, clamp01(sky_lightmap), 1.0);
 		#endif
 	} else {
 		vec4 base_color = textureLod(tex, uv, 0);
